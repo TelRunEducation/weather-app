@@ -1,31 +1,9 @@
-import {api_key, base_url} from "../utils/constants.js";
-import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {messageSelector, weatherSelector} from "../redux/weather/weatherSlice.js";
 
-const Weather = ({params}) => {
-    const [weather, setWeather] = useState({});
-    const [message, setMessage] = useState("Enter city name");
-
-    const getWeather = () => {
-        console.log("getWeather: " + params.city)
-        fetch(`${base_url}?q=${params.city}&appid=${api_key}&units=metric`)
-            .then(response => response.json())
-            .then(data => setWeather({
-                        city: data.name,
-                        country: data.sys.country,
-                        temp: data.main.temp,
-                        pressure: data.main.pressure,
-                        sunset: data.sys.sunset * 100,
-                    },
-                    setMessage(""))
-            )
-            .catch(() => setMessage('Enter correct city name'));
-    }
-    useEffect(() => {
-            if (params.city) {
-                getWeather()
-            }
-        },
-        [params])
+const Weather = () => {
+  const weather = useSelector(weatherSelector);
+  const message = useSelector(messageSelector);
     return (
         <div className={'infoWeath'}>
             {!message &&

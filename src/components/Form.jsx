@@ -1,10 +1,13 @@
 import {cacheTimeout} from "../utils/constants.js";
 import "bootstrap/js/src/button.js";
 import {useRef} from "react";
+import {useDispatch} from "react-redux";
+import {fetchWeather} from "../redux/weather/fetchWeather.js";
 
-const Form = ({setRequestParams}) => {
+const Form = () => {
     // keeps city name and timeoutId for this city
     const lastRequestData = useRef({city: '', timeoutId: undefined})
+    const dispatch = useDispatch();
 
     const handleClickGetWeather = e => {
         e.preventDefault()
@@ -28,9 +31,10 @@ const Form = ({setRequestParams}) => {
          2. timeout is over for the same city */
         if (city !== lastRequestData.current.city || !lastRequestData.current.timeoutId) {
             updateRequestInfo(city)
-            setRequestParams({city: city})
+            dispatch(fetchWeather(city))
         }
     }
+
     return (<form onSubmit={handleClickGetWeather}>
         <input type={"text"} name={'city'}/>
         <button type={"submit"} name={'submit'}>Get weather</button>
