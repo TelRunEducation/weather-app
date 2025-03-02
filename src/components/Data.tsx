@@ -1,5 +1,5 @@
-import Form from "./Form.jsx";
-import Weather from "./Weather.jsx";
+import Form from "./Form.tsx";
+import Weather from "./Weather.tsx";
 
 const Data = () => {
     return (
